@@ -149,8 +149,11 @@ namespace Snooker_Game
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 snookerTable.balls[i].MoveBall = true;
-                //change
             }
+
+            //snookerTable.balls[0].MoveBall = true;
+            //snookerTable.balls[1].MoveBall = true;
+
             //moveWhiteBall = true;
             //moveRedBall = true;
             //moveYellowBall = true;
@@ -187,20 +190,23 @@ namespace Snooker_Game
             //CheckCollisions();
             //checkPockets();
             //label1.Text = "White Ball Center: " + whiteBallCenter.ToString() + "White Ball Velocity: " + redBallVelocity.ToString() + "Red Ball Center: " + redBallCenter.ToString() + "Red Ball Velocity: " + redBallVelocity.ToString();
+
+
+
+
+
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 snookerTable.MoveBall(snookerTable.balls[i]);
             }
             snookerTable.resolveElasticCollisions();
-            //snookerTable.MoveBall(snookerTable.balls[0]);
 
-            //snookerTable.balls[0].MoveBall(snookerTable);
             this.Refresh();
         }
 
         private void CheckCollisions()
         {
-            Vector tempVelocity = new Vector();
+            //Vector tempVelocity = new Vector();
             //int numOfCollisions = 6;
             //bool[] collisions = new bool[numOfCollisions];
 

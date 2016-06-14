@@ -195,14 +195,13 @@ namespace Snooker_Game
 
         public void resolveElasticCollisions()
         {
-            Vector tempVelocity = new Vector();
-
             for (int i = 0; i < balls.Length; i++)
             {
                 for (int j = 0; j < balls.Length; j++)
                 {
                     if (detectElasticCollision(balls[i], balls[j]))
                     {
+                        Vector tempVelocity = new Vector();
                         tempVelocity = ChangeVelocities(balls[i], balls[j]);
                         balls[j].Velocity = ChangeVelocities(balls[j], balls[i]);
                         balls[i].Velocity = tempVelocity;
