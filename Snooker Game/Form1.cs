@@ -149,6 +149,7 @@ namespace Snooker_Game
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 snookerTable.balls[i].MoveBall = true;
+                //change
             }
             //moveWhiteBall = true;
             //moveRedBall = true;
