@@ -234,9 +234,11 @@ namespace Snooker_Game
             double y = b1.Center.Y;
 
             Point ballCenter = new Point((int)x, (int)y);
-            if (p1.Contains(ballCenter))
+            if (p1.Contains(ballCenter) && b1.Colour != Color.White)
             {
                 b1.Potted = true;
+                b1.Center.X = 1480;
+                b1.Speed = 0;
             }
         }
     }

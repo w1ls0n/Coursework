@@ -13,7 +13,7 @@ namespace Snooker_Game
 {
     public partial class Form1 : Form
     {
-        SnookerTable snookerTable = new SnookerTable(50, 50, 720, 1440, 50, 50, 0.97);
+        SnookerTable snookerTable = new SnookerTable(50, 50, 720, 1440, 50, 50, 0.98);
         Vector mouseLocation = new Vector();
 
         enum Balls
@@ -55,6 +55,11 @@ namespace Snooker_Game
             }
 
             snookerTable.pockets[0] = new Rectangle(36, 36, 35, 35);
+            snookerTable.pockets[1] = new Rectangle(727, 32, 35, 35);
+            snookerTable.pockets[2] = new Rectangle(1418, 36, 35, 35);
+            snookerTable.pockets[3] = new Rectangle(36, 699, 35, 35);
+            snookerTable.pockets[4] = new Rectangle(727, 703, 35, 35);
+            snookerTable.pockets[5] = new Rectangle(1418, 699, 35, 35);
 
             Bitmap newCur = new Bitmap(Resources.SnookerCue);
             this.Cursor = CustomCursor.CreateCursor(newCur, newCur.Height + 545, newCur.Width - 549);
@@ -65,13 +70,19 @@ namespace Snooker_Game
             Pen blackPen = new Pen(Color.Black, 4f);
             Pen bluePen = new Pen(Color.Blue, 1f);
             e.Graphics.DrawLine(blackPen, (int)mouseLocation.X, (int)mouseLocation.Y, (int)snookerTable.balls[0].Center.X, (int)snookerTable.balls[0].Center.Y);
-            e.Graphics.DrawRectangle(bluePen, snookerTable.pockets[0]);
+            
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
-                if (snookerTable.balls[i].Potted == false || i == 0)
-                {
-                    snookerTable.DrawBall(e.Graphics, snookerTable.balls[i]);
-                }
+                snookerTable.DrawBall(e.Graphics, snookerTable.balls[i]);
+                //if (snookerTable.balls[i].Potted == false || i == 0)
+                //{
+                //    snookerTable.DrawBall(e.Graphics, snookerTable.balls[i]);
+                //}
+            }
+
+            for (int i = 0; i < snookerTable.pockets.Length; i++)
+            {
+                e.Graphics.DrawRectangle(bluePen, snookerTable.pockets[i]);
             }
         }
 
@@ -127,7 +138,10 @@ namespace Snooker_Game
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 snookerTable.MoveBall(snookerTable.balls[i]);
-                snookerTable.checkPockets(snookerTable.balls[i], snookerTable.pockets[0]);
+                for (int j = 0; j < snookerTable.pockets.Length; j++)
+                {
+                    snookerTable.checkPockets(snookerTable.balls[i], snookerTable.pockets[j]);
+                }
             }
             snookerTable.resolveElasticCollisions();
 
