@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Snooker_Game
 {
     class SnookerTable
     {
-        const int numOfBalls = 3;
+        const int numOfBalls = 17;
         public Ball[] balls = new Ball[numOfBalls];
+        public Rectangle[] pockets = new Rectangle[6];
         private double friction;
         private int topLeftX;
         private int topLeftY;
@@ -18,8 +20,7 @@ namespace Snooker_Game
         private int height;
         private int rightBorder;
         private int bottomBorder;
-
-
+        
         public double Friction
         {
             get
@@ -121,11 +122,11 @@ namespace Snooker_Game
             friction = friction1;
         }
 
-        public void addBall(int ballNum, int centerX, int centerY, int velocityX, int velocityY, Color colour, int diameter, double speed, bool moveBall)
+        public void addBall(int ballNum, int centerX, int centerY, int velocityX, int velocityY, Color colour, int diameter, double speed, bool moveBall, bool potted)
         {
             Vector center = new Vector(centerX, centerY);
             Vector velocity = new Vector(velocityX, velocityY);
-            balls[ballNum] = new Ball(center, velocity, colour, diameter, speed, moveBall);
+            balls[ballNum] = new Ball(center, velocity, colour, diameter, speed, moveBall, potted);
         }
 
         public void DrawBall(Graphics g, Ball b)
@@ -150,7 +151,7 @@ namespace Snooker_Game
                 b.Velocity.X *= friction;
                 b.Velocity.Y *= friction;
 
-                if ((b.Velocity.X < 0.01 && b.Velocity.X > -0.01) && (b.Velocity.Y < 0.01 && b.Velocity.Y > -0.01))
+                if ((b.Velocity.X < 0.02 && b.Velocity.X > -0.02) && (b.Velocity.Y < 0.02 && b.Velocity.Y > -0.02))
                 {
                     b.Velocity.X = 0;
                     b.Velocity.Y = 0;
@@ -199,85 +200,22 @@ namespace Snooker_Game
             {
                 for (int j = 0; j < balls.Length; j++)
                 {
-                    if (detectElasticCollision(balls[i], balls[j]))
+                    if (j > i)
                     {
-                        Vector tempVelocity = new Vector();
-                        tempVelocity = ChangeVelocities(balls[i], balls[j]);
-                        balls[j].Velocity = ChangeVelocities(balls[j], balls[i]);
-                        balls[i].Velocity = tempVelocity;
-                        balls[j].Speed = balls[i].Speed;
+                        if (detectElasticCollision(balls[i], balls[j]))
+                        {
+                            Vector tempVelocity = new Vector();
+                            //double tempSpeed = balls[i].Speed;
+                            tempVelocity = ChangeVelocities(balls[i], balls[j]);
+                            balls[j].Velocity = ChangeVelocities(balls[j], balls[i]);
+                            balls[i].Velocity = tempVelocity;
+                            //balls[i].Speed = balls[j].Speed;
+                            //balls[j].Speed = tempSpeed;
+                            balls[j].Speed = balls[i].Speed;
+                        }
                     }
                 }
             }
-
-            //int numOfCollisions = 6;
-            //bool[] collisions = new bool[numOfCollisions];
-
-            //for (int i = 0; i < numOfCollisions; i++)
-            //{
-            //    for (int j = 0; j < numOfCollisions; j++)
-            //    {
-            //        collisions[i] = DetectCollision(ballCenters[i], ballCenters[j]);
-            //    }
-            //}
-
-
-
-            //bool collisionWhiteRed = DetectCollision(whiteBallCenter, redBallCenter);
-            //bool collisionWhiteYellow = DetectCollision(whiteBallCenter, yellowBallCenter);
-            //bool collisionWhiteGreen = DetectCollision(whiteBallCenter, greenBallCenter);
-            //bool collisionRedYellow = DetectCollision(redBallCenter, yellowBallCenter);
-            //bool collisionRedGreen = DetectCollision(redBallCenter, greenBallCenter);
-            //bool collisionGreenYellow = DetectCollision(greenBallCenter, yellowBallCenter);
-
-            //if (collisionWhiteRed)
-            //{
-            //    tempVelocity = ChangeVelocities(whiteBallVelocity, whiteBallCenter, redBallVelocity, redBallCenter);
-            //    redBallVelocity = ChangeVelocities(redBallVelocity, redBallCenter, whiteBallVelocity, whiteBallCenter);
-            //    whiteBallVelocity = tempVelocity;
-            //    redBallSpeed = whiteBallSpeed;
-            //}
-            //if (collisionWhiteYellow)
-            //{
-            //    tempVelocity = ChangeVelocities(whiteBallVelocity, whiteBallCenter, yellowBallVelocity, yellowBallCenter);
-            //    yellowBallVelocity = ChangeVelocities(yellowBallVelocity, yellowBallCenter, whiteBallVelocity, whiteBallCenter);
-            //    whiteBallVelocity = tempVelocity;
-            //    yellowBallSpeed = whiteBallSpeed;
-            //}
-            //if (collisionWhiteGreen)
-            //{
-            //    tempVelocity = ChangeVelocities(whiteBallVelocity, whiteBallCenter, greenBallVelocity, greenBallCenter);
-            //    greenBallVelocity = ChangeVelocities(greenBallVelocity, greenBallCenter, whiteBallVelocity, whiteBallCenter);
-            //    whiteBallVelocity = tempVelocity;
-            //    greenBallSpeed = whiteBallSpeed;
-            //}
-            //if (collisionRedYellow)
-            //{
-            //    tempVelocity = ChangeVelocities(redBallVelocity, redBallCenter, yellowBallVelocity, yellowBallCenter);
-            //    yellowBallVelocity = ChangeVelocities(yellowBallVelocity, yellowBallCenter, redBallVelocity, redBallCenter);
-            //    redBallVelocity = tempVelocity;
-            //    float tempSpeed = redBallSpeed;
-            //    redBallSpeed = yellowBallSpeed;
-            //    yellowBallSpeed = tempSpeed;
-            //}
-            //if (collisionRedGreen)
-            //{
-            //    tempVelocity = ChangeVelocities(redBallVelocity, redBallCenter, greenBallVelocity, greenBallCenter);
-            //    yellowBallVelocity = ChangeVelocities(greenBallVelocity, greenBallCenter, redBallVelocity, redBallCenter);
-            //    redBallVelocity = tempVelocity;
-            //    float tempSpeed = redBallSpeed;
-            //    redBallSpeed = greenBallSpeed;
-            //    greenBallSpeed = tempSpeed;
-            //}
-            //if (collisionGreenYellow)
-            //{
-            //    tempVelocity = ChangeVelocities(greenBallVelocity, greenBallCenter, yellowBallVelocity, yellowBallCenter);
-            //    yellowBallVelocity = ChangeVelocities(yellowBallVelocity, yellowBallCenter, greenBallVelocity, greenBallCenter);
-            //    greenBallVelocity = tempVelocity;
-            //    float tempSpeed = greenBallSpeed;
-            //    greenBallSpeed = yellowBallSpeed;
-            //    yellowBallSpeed = tempSpeed;
-            //}
         }
 
         public Vector ChangeVelocities(Ball b1, Ball b2)
@@ -288,6 +226,18 @@ namespace Snooker_Game
             Vector ballTwoPara = centersVector.ParralelComponent(b2.Velocity);
             Vector ballOneNewVelocity = ballTwoPara + ballOnePerpendicular;
             return ballOneNewVelocity;
+        }
+
+        public void checkPockets(Ball b1, Rectangle p1)
+        {
+            double x = b1.Center.X;
+            double y = b1.Center.Y;
+
+            Point ballCenter = new Point((int)x, (int)y);
+            if (p1.Contains(ballCenter))
+            {
+                b1.Potted = true;
+            }
         }
     }
 }

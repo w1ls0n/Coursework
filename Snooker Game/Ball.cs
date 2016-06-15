@@ -15,6 +15,7 @@ namespace Snooker_Game
         private double speed;
         private int diameter;
         private bool moveBall;
+        private bool potted;
 
         public Vector Center
         {
@@ -94,6 +95,19 @@ namespace Snooker_Game
             }
         }
 
+        public bool Potted
+        {
+            get
+            {
+                return potted;
+            }
+
+            set
+            {
+                potted = value;
+            }
+        }
+
         public Ball()
         {
             center.X = 0.0;
@@ -104,9 +118,10 @@ namespace Snooker_Game
             diameter = 0;
             speed = 0;
             moveBall = false;
+            potted = false;
         }
         
-        public Ball(Vector center1, Vector velocity1, Color colour1, int diameter1, double speed1, bool moveBall1)
+        public Ball(Vector center1, Vector velocity1, Color colour1, int diameter1, double speed1, bool moveBall1, bool potted1)
         {
             center = center1;
             velocity = velocity1;
@@ -114,9 +129,10 @@ namespace Snooker_Game
             diameter = diameter1;
             speed = speed1;
             moveBall = moveBall1;
+            potted = potted1;
         }
 
-        public Ball(int centerX, int centerY, int velocityX, int velocityY, Color colour1, int diameter1, double speed1, bool moveBall1)
+        public Ball(int centerX, int centerY, int velocityX, int velocityY, Color colour1, int diameter1, double speed1, bool moveBall1, bool potted1)
         {
             center.X = centerX;
             center.Y = centerY;
@@ -126,45 +142,7 @@ namespace Snooker_Game
             diameter = diameter1;
             speed = speed1;
             moveBall = moveBall1;
+            potted = potted1;
         }
-
-        //public void Move_Ball(SnookerTable snookerTable)
-        //{
-        //    if (moveBall == true)
-        //    {
-        //        center.X += velocity.X * speed;
-        //        center.Y += velocity.Y * speed;
-
-        //        velocity.X *= snookerTable.Friction;
-        //        velocity.Y *= snookerTable.Friction;
-
-        //        if ((velocity.X < 0.01 && velocity.X > -0.01) && (velocity.Y < 0.01 && velocity.Y > -0.01))
-        //        {
-        //            velocity.X = 0;
-        //            velocity.Y = 0;
-        //        }
-
-        //        if (center.X <= snookerTable.TopLeftX + diameter / 2)
-        //        {
-        //            velocity.X = -velocity.X;
-        //            center.X = snookerTable.TopLeftX + diameter / 2;
-        //        }
-        //        if (center.X >= snookerTable.TopLeftX + snookerTable.Width - snookerTable.RightBorder - diameter / 2)
-        //        {
-        //            velocity.X = -velocity.X;
-        //            center.X = snookerTable.TopLeftX + snookerTable.Width - snookerTable.RightBorder - diameter / 2;
-        //        }
-        //        if (center.Y <= snookerTable.TopLeftY + diameter / 2)
-        //        {
-        //            velocity.Y = -velocity.Y;
-        //            center.Y = snookerTable.TopLeftY + diameter / 2;
-        //        }
-        //        if (center.Y >= snookerTable.TopLeftY + snookerTable.Height - snookerTable.BottomBorder - diameter / 2)
-        //        {
-        //            velocity.Y = -velocity.Y;
-        //            center.Y = snookerTable.TopLeftY + snookerTable.Height - snookerTable.BottomBorder - diameter / 2;
-        //        }
-        //    }
-        //}
     }
 }

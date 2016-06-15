@@ -56,6 +56,7 @@
             this.Text = "Snooker";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.placeWhiteBall);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseUp);
