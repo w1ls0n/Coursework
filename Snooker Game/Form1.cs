@@ -75,6 +75,7 @@ namespace Snooker_Game
             Pen bluePen = new Pen(Color.Blue, 1f);
             
             
+           
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 if (snookerTable.balls[i].Potted == false || i == 0)
@@ -88,7 +89,7 @@ namespace Snooker_Game
                 e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - mouseLocation.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - mouseLocation.Y));
                 
             }
-
+            e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - (float)shotPoint.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - (float)shotPoint.Y));
             //e.Graphics.DrawLine(blackPen, (float)shotPoint.X, (float)shotPoint.Y, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y);
         
         }
@@ -196,8 +197,30 @@ namespace Snooker_Game
 
         }
 
+
+        Vector shotPoint = new Vector();
         private void btnTakeShot_Click(object sender, EventArgs e)
         {
+            snookerTable.balls[0].Velocity.X = snookerTable.balls[0].Center.X - shotPoint.X;
+            snookerTable.balls[0].Velocity.Y = snookerTable.balls[0].Center.Y - shotPoint.Y;
+            float length = (float)snookerTable.balls[0].Velocity.Length();
+
+            if (length > 100)
+            {
+                length = 100;
+                snookerTable.balls[0].Speed = length / 10;
+            }
+            
+            if (length != 0)
+            {
+                snookerTable.balls[0].Velocity.X /= length;
+                snookerTable.balls[0].Velocity.Y /= length;
+            }
+
+            for (int i = 0; i < snookerTable.balls.Length; i++)
+            {
+                snookerTable.balls[i].MoveBall = true;
+            }
 
         }
 
@@ -206,8 +229,7 @@ namespace Snooker_Game
         {
             drawShotPoint();
         }
-
-        Vector shotPoint = new Vector();
+        
         private void drawShotPoint()
         {
             int angle;
