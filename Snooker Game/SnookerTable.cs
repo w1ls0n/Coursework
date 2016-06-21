@@ -151,7 +151,7 @@ namespace Snooker_Game
                 b.Velocity.X *= friction;
                 b.Velocity.Y *= friction;
 
-                if ((b.Velocity.X < 0.02 && b.Velocity.X > -0.02) && (b.Velocity.Y < 0.02 && b.Velocity.Y > -0.02))
+                if ((b.Velocity.X < 0.01 && b.Velocity.X > -0.01) && (b.Velocity.Y < 0.01 && b.Velocity.Y > -0.01))
                 {
                     b.Velocity.X = 0;
                     b.Velocity.Y = 0;
@@ -184,7 +184,7 @@ namespace Snooker_Game
         {
             Vector distanceBallOneBallTwo = b2.Center - b1.Center;
             float distance = (float)distanceBallOneBallTwo.Length();
-            if (distance < b1.Diameter + 2)
+            if (distance < b1.Diameter + 3)
             {
                 return true;
             }
@@ -240,6 +240,19 @@ namespace Snooker_Game
                 b1.Center.X = 1480;
                 b1.Speed = 0;
             }
+        }
+
+        public void drawPath(Graphics g, Ball b1)
+        {
+            Pen blackPen = new Pen(Color.Black, 3);
+
+            double x = b1.Center.X + b1.Velocity.X * b1.Speed;
+            double y = b1.Center.Y + b1.Velocity.Y * b1.Speed;
+            Point prediction = new Point((int)x, (int)y);
+
+            Point ballCenter = new Point((int)b1.Center.X, (int)b1.Center.Y);
+
+            g.DrawLine(blackPen, ballCenter, prediction);
         }
     }
 }

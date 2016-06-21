@@ -8,6 +8,32 @@ namespace Snooker_Game
 {
     class Cue
     {
+        private int angle, power;
 
+        public int Angle
+        {
+            get
+            {
+                return angle;
+            }
+
+            set
+            {
+                angle = value;
+            }
+        }
+
+        public int Power
+        {
+            get
+            {
+                return power;
+            }
+
+            set
+            {
+                power = value;
+            }
+        }
     }
 }

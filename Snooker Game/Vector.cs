@@ -56,7 +56,7 @@ namespace Snooker_Game
 
         public override string ToString()
         {
-            return "(" + x.ToString("g3") + "," + y.ToString("g3") + ")";
+            return "(" + x.ToString("g4") + "," + y.ToString("g4") + ")";
         }
 
         public double Length()
@@ -108,18 +108,16 @@ namespace Snooker_Game
 
         public double AngleBetween(Vector v2)
         {
-            double answer = 0;
-            double top = this.DotProduct(v2);
-            double under = this.Length() * v2.Length();
-            double angle;
-            if (under != 0)
-                answer = top / under;
-            else
-                return 0;
-            if (answer > 1) answer = 1;
-            if (answer < -1) answer = -1;
-            angle = Math.Acos(answer);
-            return (angle * 180 / Math.PI);
+            double xDiff = v2.X - x;
+            double yDiff = v2.y - y;
+            double angle = Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI;
+
+            //if (angle < 0)
+            //{
+            //    angle = -angle; 
+            //}
+
+            return angle;
         }
     }
 }

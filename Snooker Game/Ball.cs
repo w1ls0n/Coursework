@@ -144,5 +144,14 @@ namespace Snooker_Game
             moveBall = moveBall1;
             potted = potted1;
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Ball center: " + center.ToString());
+            sb.AppendLine("Ball X velocity: " + velocity.X.ToString("g4"));
+            sb.AppendLine("Ball Y velocity: " + velocity.Y.ToString("g4"));
+            return sb.ToString();
+        }
     }
 }
