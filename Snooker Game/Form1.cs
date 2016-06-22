@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Snooker_Game.Properties;
+using System.IO;
 
 namespace Snooker_Game
 {
@@ -73,9 +74,7 @@ namespace Snooker_Game
         {
             Pen blackPen = new Pen(Color.Black, 4f);
             Pen bluePen = new Pen(Color.Blue, 1f);
-            
-            
-           
+                     
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 if (snookerTable.balls[i].Potted == false || i == 0)
@@ -87,10 +86,10 @@ namespace Snooker_Game
             if (mouseLocation.Y <= 770)
             {
                 e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - mouseLocation.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - mouseLocation.Y));
-                
             }
-            e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - (float)shotPoint.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - (float)shotPoint.Y));
+            //e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - (float)shotPoint.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - (float)shotPoint.Y));
             //e.Graphics.DrawLine(blackPen, (float)shotPoint.X, (float)shotPoint.Y, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y);
+            e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[cbBallList1.SelectedIndex].Center.X, (float)snookerTable.balls[cbBallList1.SelectedIndex].Center.Y, (float)snookerTable.balls[cbBallList2.SelectedIndex].Center.X, (float)snookerTable.balls[cbBallList2.SelectedIndex].Center.Y);
         
         }
 
@@ -148,7 +147,7 @@ namespace Snooker_Game
                 snookerTable.MoveBall(snookerTable.balls[i]);
                 for (int j = 0; j < snookerTable.pockets.Length; j++)
                 {
-                    snookerTable.checkPockets(snookerTable.balls[i], snookerTable.pockets[j]);
+                    //snookerTable.checkPockets(snookerTable.balls[i], snookerTable.pockets[j]);
                 }
             }
             snookerTable.resolveElasticCollisions();
@@ -201,20 +200,20 @@ namespace Snooker_Game
         Vector shotPoint = new Vector();
         private void btnTakeShot_Click(object sender, EventArgs e)
         {
-            snookerTable.balls[0].Velocity.X = snookerTable.balls[0].Center.X - shotPoint.X;
-            snookerTable.balls[0].Velocity.Y = snookerTable.balls[0].Center.Y - shotPoint.Y;
+            snookerTable.balls[cbBallList1.SelectedIndex].Velocity.X = snookerTable.balls[cbBallList2.SelectedIndex].Center.X - snookerTable.balls[cbBallList1.SelectedIndex].Center.X  ;
+            snookerTable.balls[cbBallList1.SelectedIndex].Velocity.Y = snookerTable.balls[cbBallList2.SelectedIndex].Center.Y - snookerTable.balls[cbBallList1.SelectedIndex].Center.Y  ;
             float length = (float)snookerTable.balls[0].Velocity.Length();
 
-            if (length > 100)
+            if (length > 40)
             {
-                length = 100;
-                snookerTable.balls[0].Speed = length / 10;
+                length = 40;
+                snookerTable.balls[cbBallList1.SelectedIndex].Speed = length / 10;
             }
             
             if (length != 0)
             {
-                snookerTable.balls[0].Velocity.X /= length;
-                snookerTable.balls[0].Velocity.Y /= length;
+                snookerTable.balls[cbBallList1.SelectedIndex].Velocity.X /= length;
+                snookerTable.balls[cbBallList1.SelectedIndex].Velocity.Y /= length;
             }
 
             for (int i = 0; i < snookerTable.balls.Length; i++)
@@ -227,20 +226,45 @@ namespace Snooker_Game
         
         private void btnShowDirection_Click_1(object sender, EventArgs e)
         {
-            drawShotPoint();
+            //drawShotPoint();
         }
         
         private void drawShotPoint()
         {
-            int angle;
-            Int32.TryParse(txtAngle.Text, out angle);
+            //int angle = (int)snookerTable.balls[cbBallList1.SelectedIndex].Center.AngleBetween(snookerTable.balls[cbBallList2.SelectedIndex].Center);
+            //Int32.TryParse(label2.Text, out angle);
+            //txtAngle.Text = snookerTable.balls[cbBallList1.SelectedIndex].Center.AngleBetween(snookerTable.balls[cbBallList2.SelectedIndex].Center).ToString("g3");
 
-            int power;
-            Int32.TryParse(txtPower.Text, out power);
+            //int power;
+            //Int32.TryParse(txtPower.Text, out power);
 
-            shotPoint.X = snookerTable.balls[0].Center.X + (power * Math.Sin(angle * Math.PI / 180));
-            shotPoint.Y = snookerTable.balls[0].Center.Y + (power * Math.Cos(angle * Math.PI / 180));
-            
+            //shotPoint.X = snookerTable.balls[0].Center.X + (power * Math.Sin(angle * Math.PI / 180));
+            //shotPoint.Y = snookerTable.balls[0].Center.Y + (power * Math.Cos(angle * Math.PI / 180));
+        }
+
+        private void btnStartNewDefaultGame_Click(object sender, EventArgs e)
+        {
+            setUpGame();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            saveFileDialog.ShowDialog();
+
+        }
+
+        private void pressSave(object sender, CancelEventArgs e)
+        {
+            string name = saveFileDialog.FileName;
+            for (int i = 0; i < snookerTable.balls.Length; i++)
+            {
+                File.AppendAllText(name, snookerTable.balls[i].ToString());
+            }
+        }
+
+        private void btnOpenGame_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -254,5 +254,14 @@ namespace Snooker_Game
 
             g.DrawLine(blackPen, ballCenter, prediction);
         }
+
+        //public override string ToString()
+        //{
+        //    //StringBuilder sb = new StringBuilder();
+        //    //sb.AppendLine("Ball center: " + center.ToString());
+        //    //sb.AppendLine("Ball X velocity: " + velocity.X.ToString("g4"));
+        //    //sb.AppendLine("Ball Y velocity: " + velocity.Y.ToString("g4"));
+        //    //return sb.ToString();
+        //}
     }
 }

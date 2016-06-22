@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnStartNewDefaultGame = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
@@ -49,26 +50,43 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtPower = new System.Windows.Forms.TextBox();
             this.txtAngle = new System.Windows.Forms.TextBox();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnOpenGame = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gbBallList.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // gameTimer
             // 
             this.gameTimer.Enabled = true;
-            this.gameTimer.Interval = 10;
+            this.gameTimer.Interval = 1;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
             // groupBox1
             // 
-            this.groupBox1.Location = new System.Drawing.Point(1247, 776);
+            this.groupBox1.Controls.Add(this.btnStartNewDefaultGame);
+            this.groupBox1.Location = new System.Drawing.Point(512, 776);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 185);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "New game";
+            // 
+            // btnStartNewDefaultGame
+            // 
+            this.btnStartNewDefaultGame.Location = new System.Drawing.Point(6, 19);
+            this.btnStartNewDefaultGame.Name = "btnStartNewDefaultGame";
+            this.btnStartNewDefaultGame.Size = new System.Drawing.Size(188, 30);
+            this.btnStartNewDefaultGame.TabIndex = 0;
+            this.btnStartNewDefaultGame.Text = "New default game";
+            this.btnStartNewDefaultGame.UseVisualStyleBackColor = true;
+            this.btnStartNewDefaultGame.Click += new System.EventHandler(this.btnStartNewDefaultGame_Click);
             // 
             // groupBox2
             // 
@@ -262,6 +280,41 @@
             this.txtAngle.Size = new System.Drawing.Size(100, 20);
             this.txtAngle.TabIndex = 0;
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.pressSave);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnOpenGame);
+            this.groupBox5.Controls.Add(this.btnSave);
+            this.groupBox5.Location = new System.Drawing.Point(718, 776);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(200, 185);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Save Game";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(6, 19);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(188, 30);
+            this.btnSave.TabIndex = 0;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnOpenGame
+            // 
+            this.btnOpenGame.Location = new System.Drawing.Point(6, 55);
+            this.btnOpenGame.Name = "btnOpenGame";
+            this.btnOpenGame.Size = new System.Drawing.Size(188, 30);
+            this.btnOpenGame.TabIndex = 1;
+            this.btnOpenGame.Text = "Open Game";
+            this.btnOpenGame.UseVisualStyleBackColor = true;
+            this.btnOpenGame.Click += new System.EventHandler(this.btnOpenGame_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,6 +323,7 @@
             this.BackgroundImage = global::Snooker_Game.Properties.Resources.Snooker_Table_v2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1490, 970);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.gbBallList);
@@ -289,6 +343,7 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseUp);
+            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.gbBallList.ResumeLayout(false);
             this.gbBallList.PerformLayout();
@@ -296,6 +351,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -322,6 +378,11 @@
         private System.Windows.Forms.TextBox txtPower;
         private System.Windows.Forms.TextBox txtAngle;
         private System.Windows.Forms.Button btnShowDirection;
+        private System.Windows.Forms.Button btnStartNewDefaultGame;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnOpenGame;
     }
 }
 
