@@ -110,6 +110,8 @@ namespace Snooker_Game
 
         public Ball()
         {
+            center = new Vector();
+            velocity = new Vector();
             center.X = 0.0;
             center.Y = 0.0;
             velocity.X = 0.0;
@@ -148,9 +150,23 @@ namespace Snooker_Game
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Ball center: " + center.ToString());
+            sb.AppendLine("Ball center X: " + center.X.ToString("g4"));
+            sb.AppendLine("Ball center Y: " + center.Y.ToString("g4"));
             sb.AppendLine("Ball X velocity: " + velocity.X.ToString("g4"));
             sb.AppendLine("Ball Y velocity: " + velocity.Y.ToString("g4"));
+            sb.AppendLine("Ball Colour: " + colour.ToString());
+            sb.AppendLine("Ball diameter: " + diameter.ToString());
+            sb.AppendLine("Ball speed: " + speed.ToString());
+            sb.AppendLine("Move ball: " + moveBall.ToString());
+            sb.AppendLine("Potted: " + potted.ToString());
+            sb.AppendLine();
+            return sb.ToString();
+        }
+
+        public string saveString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(center.X.ToString("g4"));
             return sb.ToString();
         }
     }

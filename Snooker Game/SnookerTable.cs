@@ -10,7 +10,7 @@ namespace Snooker_Game
 {
     class SnookerTable
     {
-        const int numOfBalls = 17;
+        const int numOfBalls = 18;
         public Ball[] balls = new Ball[numOfBalls];
         public Rectangle[] pockets = new Rectangle[6];
         private double friction;
@@ -120,6 +120,16 @@ namespace Snooker_Game
             rightBorder = rightBorder1;
             bottomBorder = bottomBorder1;
             friction = friction1;
+        }
+
+        public void addBall(int ballNum)
+        {
+            balls[ballNum] = new Ball();
+        }
+
+        public void addBall(int ballNum, int centerX, int centerY, Color colour, int diameter)
+        {
+            addBall(ballNum, centerX, centerY, 0, 0, colour, diameter, 0, false, false);
         }
 
         public void addBall(int ballNum, int centerX, int centerY, int velocityX, int velocityY, Color colour, int diameter, double speed, bool moveBall, bool potted)
