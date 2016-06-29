@@ -166,7 +166,10 @@ namespace Snooker_Game
         public string saveString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(center.X.ToString("g4"));
+            sb.Append(center.X.ToString("g4") + ",");
+            sb.Append(center.Y.ToString("g4") + ",");
+            sb.Append(potted.ToString());
+            sb.AppendLine();
             return sb.ToString();
         }
     }

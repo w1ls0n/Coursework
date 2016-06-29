@@ -10,7 +10,7 @@ namespace Snooker_Game
 {
     class SnookerTable
     {
-        const int numOfBalls = 18;
+        const int numOfBalls = 17;
         public Ball[] balls = new Ball[numOfBalls];
         public Rectangle[] pockets = new Rectangle[6];
         private double friction;
@@ -111,6 +111,18 @@ namespace Snooker_Game
                 topLeftY = value;
             }
         }
+
+        public SnookerTable()
+        {
+            topLeftX = 0;
+            topLeftY = 0;
+            height = 0;
+            width = 0;
+            rightBorder = 0;
+            bottomBorder = 0;
+            friction = 0;
+        }
+
         public SnookerTable(int topLeftX1, int topLeftY1, int height1, int width1, int rightBorder1, int bottomBorder1, double friction1)
         {
             topLeftX = topLeftX1;
@@ -194,8 +206,39 @@ namespace Snooker_Game
         {
             Vector distanceBallOneBallTwo = b2.Center - b1.Center;
             float distance = (float)distanceBallOneBallTwo.Length();
+            float overLap = b1.Diameter - distance;
             if (distance < b1.Diameter + 3)
             {
+               ///Vector newDistanceBallOneBallTwo = b2.Center - b1.Center;
+                //float newDistance = (float)newDistanceBallOneBallTwo.Length() / 2;
+                if (b1.Velocity.X >= 0 && b1.Velocity.Y >= 0)
+                {
+                    b1.Center.X = b1.Center.X - overLap / 2;
+                    b1.Center.Y = b1.Center.Y - overLap / 2;
+                    b2.Center.X = b2.Center.X + overLap / 2;
+                    b2.Center.Y = b2.Center.Y + overLap / 2;
+                }
+                if (b1.Velocity.X >= 0 && b1.Velocity.Y <= 0)
+                {
+                    b1.Center.X = b1.Center.X - overLap / 2;
+                    b1.Center.Y = b1.Center.Y + overLap / 2;
+                    b2.Center.X = b2.Center.X + overLap / 2;
+                    b2.Center.Y = b2.Center.Y - overLap / 2;
+                }
+                if (b1.Velocity.X <= 0 && b1.Velocity.Y >= 0)
+                {
+                    b1.Center.X = b1.Center.X + overLap / 2;
+                    b1.Center.Y = b1.Center.Y - overLap / 2;
+                    b2.Center.X = b2.Center.X - overLap / 2;
+                    b2.Center.Y = b2.Center.Y + overLap / 2;
+                }
+                if (b1.Velocity.X <= 0 && b1.Velocity.Y <= 0)
+                {
+                    b1.Center.X = b1.Center.X + overLap / 2;
+                    b1.Center.Y = b1.Center.Y + overLap / 2;
+                    b2.Center.X = b2.Center.X - overLap / 2;
+                    b2.Center.Y = b2.Center.Y - overLap / 2;
+                }
                 return true;
             }
             else

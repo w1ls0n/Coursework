@@ -14,9 +14,10 @@ namespace Snooker_Game
 {
     public partial class Form1 : Form
     {
-        SnookerTable snookerTable = new SnookerTable(50, 50, 720, 1440, 50, 50, 0.97);
+        //SnookerTable snookerTable = new SnookerTable(50, 50, 720, 1440, 50, 50, 0.97);
+        SnookerTable snookerTable = new SnookerTable();
         Vector mouseLocation = new Vector();
-        int tick;
+        
 
         enum Balls
         {
@@ -26,48 +27,65 @@ namespace Snooker_Game
         public Form1()
         {
             InitializeComponent();
-            setUpGame();
+            setUpBalls();
+            setUpPockets();
+            setUpTable();
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
         }
 
-        private void setUpGame()
+        private void setUpTable()
         {
-            const int MID_LINE = 385;
+            const int TOP_LEFT_X = 50;
+            const int TOP_LEFT_Y = 50;
+            const int TABLE_HEIGHT = 720;
+            const int TABLE_WIDTH = 1440;
+            const int RIGHT_BOARDER = 50;
+            const int BOTTOM_BOARDER = 50;
+            const double FRICTION = 0.97;
+
+            snookerTable.TopLeftX = TOP_LEFT_X;
+            snookerTable.TopLeftY = TOP_LEFT_Y;
+            snookerTable.Height = TABLE_HEIGHT;
+            snookerTable.Width = TABLE_WIDTH;
+            snookerTable.RightBorder = RIGHT_BOARDER;
+            snookerTable.BottomBorder = BOTTOM_BOARDER;
+            snookerTable.Friction = FRICTION;
+        }
+
+        private void setUpBalls()
+        {
+            const int MID_Y = 385;
             const int B_LINE = 360;
+            const int BLACK_X = 1292;
+            const int PINK_X = 1080;
+            const int BLUE_X = 745;
+            const int GREEN_Y = 500;
+            const int YELLOW_Y = 270;
+            const int DIAMETER = 30;
 
-
-            snookerTable.addBall(0, 300, 330,  Color.White, 30);
-            snookerTable.addBall(6, 1292, 385, 0, 0, Color.Black, 30, 0, false, false);
-            snookerTable.addBall(5, 1080, 385, 0, 0, Color.Pink, 30, 0, false, false);
-            snookerTable.addBall(4, 745, 385, 0, 0, Color.Blue, 30, 0, false, false);
-            snookerTable.addBall(3, 360, 385, 0, 0, Color.Brown, 30, 0, false, false);
-            snookerTable.addBall(2, 360, 500, 0, 0, Color.Green, 30, 0, false, false);
-            snookerTable.addBall(1, 360, 270, 0, 0, Color.Yellow, 30, 0, false, false);
-
-            snookerTable.addBall(17);
-
-            int radius = 15;
+            snookerTable.addBall(0, 300, 330,  Color.White, DIAMETER);
+            snookerTable.addBall(6, BLACK_X, MID_Y, Color.Black, DIAMETER);
+            snookerTable.addBall(5, PINK_X, MID_Y, Color.Pink, DIAMETER);
+            snookerTable.addBall(4, BLUE_X, MID_Y, Color.Blue, DIAMETER);
+            snookerTable.addBall(3, B_LINE, MID_Y, Color.Brown, DIAMETER);
+            snookerTable.addBall(2, B_LINE, GREEN_Y, Color.Green, DIAMETER);
+            snookerTable.addBall(1, B_LINE, YELLOW_Y, Color.Yellow, DIAMETER);
+            
+            int radius = 20;
             int redBallNum = 1;
             for (int row = 0; row < 4; row++)
             {
-                int startY = 385 - row * radius;
-                int x = 1120 + (int)(row * (Math.Sqrt(3) * radius));
+                int startY = MID_Y - row * radius;
+                int x = PINK_X + 40 + (int)(row * (Math.Sqrt(3) * radius));
                 for (int ball = 0; ball < row + 1; ball++)
                 {
-                    snookerTable.addBall(redBallNum + 6, x, startY + ball * (2 * radius), 0, 0, Color.Red, 30, 0, false, false);
+                    snookerTable.addBall(redBallNum + 6, x, startY + ball * (2 * radius), Color.Red, DIAMETER);
                     redBallNum++;
                 }
                 
             }
-
-            snookerTable.pockets[0] = new Rectangle(36, 36, 35, 35);
-            snookerTable.pockets[1] = new Rectangle(727, 32, 35, 35);
-            snookerTable.pockets[2] = new Rectangle(1418, 36, 35, 35);
-            snookerTable.pockets[3] = new Rectangle(36, 699, 35, 35);
-            snookerTable.pockets[4] = new Rectangle(727, 703, 35, 35);
-            snookerTable.pockets[5] = new Rectangle(1418, 699, 35, 35);
 
             cbBallList1.SelectedIndex = 0;
             cbBallList2.SelectedIndex = 1;
@@ -83,13 +101,15 @@ namespace Snooker_Game
             const int LEFT_X = 36;
             const int MIDDLE_X = 727;
             const int RIGHT_X = 1418;
+            const int TOP = 36;
+            const int BOTTOM = 699;
             
-            snookerTable.pockets[0] = new Rectangle(36, 36, POCKET_WIDTH, POCKET_HEIGHT);
-            snookerTable.pockets[1] = new Rectangle(727, 32, POCKET_WIDTH, POCKET_HEIGHT);
-            snookerTable.pockets[2] = new Rectangle(1418, 36, POCKET_WIDTH, POCKET_HEIGHT);
-            snookerTable.pockets[3] = new Rectangle(36, 699, POCKET_WIDTH, POCKET_HEIGHT);
-            snookerTable.pockets[4] = new Rectangle(727, 703, POCKET_WIDTH, POCKET_HEIGHT);
-            snookerTable.pockets[5] = new Rectangle(1418, 699, POCKET_WIDTH, POCKET_HEIGHT);
+            snookerTable.pockets[0] = new Rectangle(LEFT_X, TOP, POCKET_WIDTH, POCKET_HEIGHT);
+            snookerTable.pockets[1] = new Rectangle(MIDDLE_X, TOP - 4, POCKET_WIDTH, POCKET_HEIGHT);
+            snookerTable.pockets[2] = new Rectangle(RIGHT_X, TOP, POCKET_WIDTH, POCKET_HEIGHT);
+            snookerTable.pockets[3] = new Rectangle(LEFT_X, BOTTOM, POCKET_WIDTH, POCKET_HEIGHT);
+            snookerTable.pockets[4] = new Rectangle(MIDDLE_X, BOTTOM + 4, POCKET_WIDTH, POCKET_HEIGHT);
+            snookerTable.pockets[5] = new Rectangle(RIGHT_X, BOTTOM, POCKET_WIDTH, POCKET_HEIGHT);
         }
 
         private void paint(object sender, PaintEventArgs e)
@@ -175,7 +195,6 @@ namespace Snooker_Game
             snookerTable.resolveElasticCollisions();
             displayBallInfo(cbBallList1.SelectedIndex,cbBallList2.SelectedIndex);
             this.Refresh();
-            tick++;
         }
         
         private void placeWhiteBall(object sender, MouseEventArgs e)
@@ -206,19 +225,7 @@ namespace Snooker_Game
             lbSecondBallInfo.Text = snookerTable.balls[ballNum2].ToString();
             lbAngle.Text = "Angle: " + snookerTable.balls[ballNum1].Center.AngleBetween(snookerTable.balls[ballNum2].Center).ToString("g3");
         }
-
-        private void save(SnookerTable snookerTable)
-        {
-            GameData CurrentGameData = new GameData();
-            CurrentGameData.cueBall = snookerTable.balls[0];
-            CurrentGameData.yellowBall = snookerTable.balls[1];
-
-            string fileName = tick.ToString();
-
-
-        }
-
-
+        
         Vector shotPoint = new Vector();
         private void btnTakeShot_Click(object sender, EventArgs e)
         {
@@ -266,7 +273,8 @@ namespace Snooker_Game
 
         private void btnStartNewDefaultGame_Click(object sender, EventArgs e)
         {
-            setUpGame();
+            setUpBalls();
+            setUpPockets();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -280,7 +288,7 @@ namespace Snooker_Game
             string name = saveFileDialog.FileName;
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
-                File.AppendAllText(name, snookerTable.balls[i].ToString());
+                File.AppendAllText(name, snookerTable.balls[i].saveString());
             }
         }
 
@@ -292,10 +300,17 @@ namespace Snooker_Game
                 string file = openFileDialog.FileName;
                 try
                 {
-                    string[] data = File.ReadAllLines(file);
-                    MessageBox.Show(data.ToString());
-                    //snookerTable.balls[0].Center.X = double.Parse(data[0]);
-                    //snookerTable.balls[0].Center.Y = double.Parse(data[1]);
+                    string[] gameData = File.ReadAllLines(file);
+                    
+                    for (int i = 0; i < snookerTable.balls.Length; i++)
+                    {
+                        string[] ballData = gameData[i].Split(',');
+
+                        snookerTable.balls[i].Center.X = double.Parse(ballData[0]);
+                        snookerTable.balls[i].Center.Y = double.Parse(ballData[1]);
+                        snookerTable.balls[i].Potted = bool.Parse(ballData[2]);
+                    }
+
                 }
                 catch (IOException)
                 {
