@@ -14,15 +14,8 @@ namespace Snooker_Game
 {
     public partial class Form1 : Form
     {
-        //SnookerTable snookerTable = new SnookerTable(50, 50, 720, 1440, 50, 50, 0.97);
         SnookerTable snookerTable = new SnookerTable();
         Vector mouseLocation = new Vector();
-        
-
-        enum Balls
-        {
-            cueBall, blackBall, pinkBall, blueBall, redBall
-        }
         
         public Form1()
         {
@@ -84,7 +77,6 @@ namespace Snooker_Game
                     snookerTable.addBall(redBallNum + 6, x, startY + ball * (2 * radius), Color.Red, DIAMETER);
                     redBallNum++;
                 }
-                
             }
 
             cbBallList1.SelectedIndex = 0;
@@ -129,10 +121,6 @@ namespace Snooker_Game
             {
                 e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - mouseLocation.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - mouseLocation.Y));
             }
-            //e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - (float)shotPoint.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - (float)shotPoint.Y));
-            //e.Graphics.DrawLine(blackPen, (float)shotPoint.X, (float)shotPoint.Y, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y);
-            e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[cbBallList1.SelectedIndex].Center.X, (float)snookerTable.balls[cbBallList1.SelectedIndex].Center.Y, (float)snookerTable.balls[cbBallList2.SelectedIndex].Center.X, (float)snookerTable.balls[cbBallList2.SelectedIndex].Center.Y);
-        
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -158,6 +146,8 @@ namespace Snooker_Game
             {
                 snookerTable.balls[0].Velocity.X = snookerTable.balls[0].Center.X - mouseLocation.X;
                 snookerTable.balls[0].Velocity.Y = snookerTable.balls[0].Center.Y - mouseLocation.Y;
+                
+
                 float length = (float)snookerTable.balls[0].Velocity.Length();
 
                 if (length > 40)
@@ -194,15 +184,15 @@ namespace Snooker_Game
             }
             snookerTable.resolveElasticCollisions();
             displayBallInfo(cbBallList1.SelectedIndex,cbBallList2.SelectedIndex);
+
+            if (showDirection == true)
+            {
+                drawShot();
+            }
+
             this.Refresh();
         }
-        
-        private void placeWhiteBall(object sender, MouseEventArgs e)
-        {
-            //mouseLocation.X = e.X;
-            //mouseLocation.Y = e.Y;
-            //snookerTable.addBall(0, (int)mouseLocation.X, (int)mouseLocation.Y, 0, 0, Color.White, 21, 0, false);
-        }
+       
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -214,35 +204,44 @@ namespace Snooker_Game
             gameTimer.Stop();
         }
         
-        private void CheckSelectedBall(object sender, EventArgs e)
-        {
-            
-        }
-        
         private void displayBallInfo(int ballNum1, int ballNum2)
         {
             lbFirstBallInfo.Text = snookerTable.balls[ballNum1].ToString();
             lbSecondBallInfo.Text = snookerTable.balls[ballNum2].ToString();
-            lbAngle.Text = "Angle: " + snookerTable.balls[ballNum1].Center.AngleBetween(snookerTable.balls[ballNum2].Center).ToString("g3");
+            lbAngle.Text = snookerTable.balls[ballNum1].Center.AngleBetween(snookerTable.balls[ballNum2].Center).ToString("g3") + " degrees";
         }
         
-        Vector shotPoint = new Vector();
+      
         private void btnTakeShot_Click(object sender, EventArgs e)
         {
-            snookerTable.balls[cbBallList1.SelectedIndex].Velocity.X = snookerTable.balls[cbBallList2.SelectedIndex].Center.X - snookerTable.balls[cbBallList1.SelectedIndex].Center.X  ;
-            snookerTable.balls[cbBallList1.SelectedIndex].Velocity.Y = snookerTable.balls[cbBallList2.SelectedIndex].Center.Y - snookerTable.balls[cbBallList1.SelectedIndex].Center.Y  ;
+            int power;
+
+            Int32.TryParse(txtPower.Text, out power);
+                
+            double ballCenterX = snookerTable.balls[0].Center.X;
+            double ballCenterY = snookerTable.balls[0].Center.Y;
+
+            int angle = -(int)numAngle.Value;
+
+            Vector shotPoint = new Vector();
+            shotPoint.X = (power * 10) * Math.Cos(angle * (Math.PI / 180));
+            shotPoint.Y = (power * 10) * Math.Sin(angle * (Math.PI / 180));
+
+            snookerTable.balls[0].Velocity.X = ballCenterX - (ballCenterX - shotPoint.X);
+            snookerTable.balls[0].Velocity.Y = ballCenterY - (ballCenterY - shotPoint.Y);
+
             float length = (float)snookerTable.balls[0].Velocity.Length();
 
             if (length > 40)
             {
                 length = 40;
-                snookerTable.balls[cbBallList1.SelectedIndex].Speed = length / 10;
+                snookerTable.balls[0].Speed = length / 10;
             }
             
             if (length != 0)
             {
-                snookerTable.balls[cbBallList1.SelectedIndex].Velocity.X /= length;
-                snookerTable.balls[cbBallList1.SelectedIndex].Velocity.Y /= length;
+                snookerTable.balls[0].Velocity.X /= length;
+                snookerTable.balls[0].Velocity.Y /= length;
             }
 
             for (int i = 0; i < snookerTable.balls.Length; i++)
@@ -252,24 +251,39 @@ namespace Snooker_Game
 
         }
 
-        
+        bool showDirection = false;
         private void btnShowDirection_Click_1(object sender, EventArgs e)
         {
-            //drawShotPoint();
+            if (showDirection == false)
+            {
+                showDirection = true;
+            }
+            else if(showDirection == true)
+            {
+                showDirection = false;
+            }
+        }
+
+        private void drawShot()
+        {
+            Graphics graphics = this.CreateGraphics();
+            int power;
+
+            Int32.TryParse(txtPower.Text, out power);
+
+            double ballCenterX = snookerTable.balls[0].Center.X;
+            double ballCenterY = snookerTable.balls[0].Center.Y;
+
+            int angle = -(int)numAngle.Value;
+
+            Vector shotPoint = new Vector();
+            shotPoint.X = (power * 10) * Math.Cos(angle * (Math.PI / 180));
+            shotPoint.Y = (power * 10) * Math.Sin(angle * (Math.PI / 180));
+
+            Pen blackPen = new Pen(Color.Black, 3f);
+            graphics.DrawLine(blackPen, (float)ballCenterX, (float)ballCenterY, (float)(shotPoint.X + ballCenterX), (float)(shotPoint.Y + ballCenterY));
         }
         
-        private void drawShotPoint()
-        {
-            //int angle = (int)snookerTable.balls[cbBallList1.SelectedIndex].Center.AngleBetween(snookerTable.balls[cbBallList2.SelectedIndex].Center);
-            //Int32.TryParse(label2.Text, out angle);
-            //txtAngle.Text = snookerTable.balls[cbBallList1.SelectedIndex].Center.AngleBetween(snookerTable.balls[cbBallList2.SelectedIndex].Center).ToString("g3");
-
-            //int power;
-            //Int32.TryParse(txtPower.Text, out power);
-
-            //shotPoint.X = snookerTable.balls[0].Center.X + (power * Math.Sin(angle * Math.PI / 180));
-            //shotPoint.Y = snookerTable.balls[0].Center.Y + (power * Math.Cos(angle * Math.PI / 180));
-        }
 
         private void btnStartNewDefaultGame_Click(object sender, EventArgs e)
         {
@@ -280,7 +294,6 @@ namespace Snooker_Game
         private void btnSave_Click(object sender, EventArgs e)
         {
             saveFileDialog.ShowDialog();
-
         }
 
         private void pressSave(object sender, CancelEventArgs e)
@@ -314,6 +327,7 @@ namespace Snooker_Game
                 }
                 catch (IOException)
                 {
+
                 }
             }
         }

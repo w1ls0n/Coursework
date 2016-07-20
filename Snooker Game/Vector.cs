@@ -80,9 +80,13 @@ namespace Snooker_Game
             lengthSquared = Length() * Length();
             dotProduct = DotProduct(v2);
             if (lengthSquared != 0)
+            {
                 scale = dotProduct / lengthSquared;
+            }
             else
+            {
                 return new Vector();
+            }
             return new Vector(this.Scale(scale));
         }
 
@@ -112,12 +116,7 @@ namespace Snooker_Game
             double yDiff = v2.y - y;
             double angle = Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI;
 
-            //if (angle < 0)
-            //{
-            //    angle = -angle; 
-            //}
-
-            return angle;
+            return angle % 90;
         }
     }
 }

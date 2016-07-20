@@ -154,6 +154,7 @@ namespace Snooker_Game
             sb.AppendLine("Ball center Y: " + center.Y.ToString("g4"));
             sb.AppendLine("Ball X velocity: " + velocity.X.ToString("g4"));
             sb.AppendLine("Ball Y velocity: " + velocity.Y.ToString("g4"));
+            sb.AppendLine("Ball velocity: " + velocity.Length().ToString("g4"));
             sb.AppendLine("Ball Colour: " + colour.ToString());
             sb.AppendLine("Ball diameter: " + diameter.ToString());
             sb.AppendLine("Ball speed: " + speed.ToString());
