@@ -59,7 +59,6 @@
             this.txtPower = new System.Windows.Forms.TextBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2.SuspendLayout();
             this.gbBallList.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -369,15 +368,6 @@
             // 
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.pressSave);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(873, 778);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(605, 183);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Potted Balls";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -386,7 +376,6 @@
             this.BackgroundImage = global::Snooker_Game.Properties.Resources.Snooker_Table_v2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1490, 970);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.gbBallList);
@@ -447,7 +436,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numAngle;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox cbShowDirection;
     }
 }

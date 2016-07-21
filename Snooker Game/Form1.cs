@@ -19,6 +19,7 @@ namespace Snooker_Game
         
         public Form1()
         {
+            // sets up a defualt game when the program is opened
             InitializeComponent();
             setUpBalls();
             setUpPockets();
@@ -30,6 +31,7 @@ namespace Snooker_Game
 
         private void setUpTable()
         {
+            // sets up the table with all the default properties 
             const int TOP_LEFT_X = 50;
             const int TOP_LEFT_Y = 50;
             const int TABLE_HEIGHT = 720;
@@ -49,6 +51,7 @@ namespace Snooker_Game
 
         private void setUpBalls()
         {
+            // places the balls in thier default locations
             const int MID_Y = 385;
             const int B_LINE = 360;
             const int BLACK_X = 1292;
@@ -66,6 +69,8 @@ namespace Snooker_Game
             snookerTable.addBall(2, B_LINE, GREEN_Y, Color.Green, DIAMETER);
             snookerTable.addBall(1, B_LINE, YELLOW_Y, Color.Yellow, DIAMETER);
             
+            // a loop to set up the red balls in the triangle formation
+
             int radius = 20;
             int redBallNum = 1;
             for (int row = 0; row < 4; row++)
@@ -88,6 +93,8 @@ namespace Snooker_Game
 
         private void setUpPockets()
         {
+            // sets the location of the pockets
+
             const int POCKET_HEIGHT = 35;
             const int POCKET_WIDTH = 35;
             const int LEFT_X = 36;
@@ -106,9 +113,13 @@ namespace Snooker_Game
 
         private void paint(object sender, PaintEventArgs e)
         {
+            
+
             Pen blackPen = new Pen(Color.Black, 4f);
             Pen bluePen = new Pen(Color.Blue, 1f);
-                     
+
+            //draw all of the balls to the screen
+
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
                 if (snookerTable.balls[i].Potted == false || i == 0)
@@ -117,6 +128,8 @@ namespace Snooker_Game
                 }
             }
             
+            // draws the direction of the shot to the screen is the mouse is within the boundaries of the snooker table and if the option is checked
+
             if (mouseLocation.Y <= 770 && cbShowDirection.Checked == true)
             {
                 e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - mouseLocation.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - mouseLocation.Y));
@@ -130,20 +143,25 @@ namespace Snooker_Game
         
         private void mouseDown(object sender, MouseEventArgs e)
         {
+            // gets the location of the mouse when it is clicked
             mouseLocation.X = e.X;
             mouseLocation.Y = e.Y;
         }
 
         private void mouseMove(object sender, MouseEventArgs e)
         {
+            //updates the location of the mouse when it moves
             mouseLocation.X = e.X;
             mouseLocation.Y = e.Y;
         }
 
         private void mouseUp(object sender, MouseEventArgs e)
         {
+            // when the mouse button is lifted a shot is taken if the mouse is on the snooker table
             if (mouseLocation.Y <= 770)
             {
+
+                // sets the velocites of the balls depending on the mouse location and the location of center of the ball
                 snookerTable.balls[0].Velocity.X = snookerTable.balls[0].Center.X - mouseLocation.X;
                 snookerTable.balls[0].Velocity.Y = snookerTable.balls[0].Center.Y - mouseLocation.Y;
                 
@@ -176,15 +194,21 @@ namespace Snooker_Game
         {
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
+                // allows all balls to move
                 snookerTable.MoveBall(snookerTable.balls[i]);
                 for (int j = 0; j < snookerTable.pockets.Length; j++)
                 {
+                    //checks if balls have been potted
                     snookerTable.checkPockets(snookerTable.balls[i], snookerTable.pockets[j]);
                 }
             }
+            //resolves collisions
             snookerTable.resolveElasticCollisions();
+
+            //displays the information to the user about the balls that they chosose
             displayBallInfo(cbBallList1.SelectedIndex,cbBallList2.SelectedIndex);
 
+            // shows the direction of the ball is the user presses the button
             if (showDirection == true)
             {
                 drawShot();
@@ -206,6 +230,7 @@ namespace Snooker_Game
         
         private void displayBallInfo(int ballNum1, int ballNum2)
         {
+            // displays ball information to the user
             lbFirstBallInfo.Text = snookerTable.balls[ballNum1].ToString();
             lbSecondBallInfo.Text = snookerTable.balls[ballNum2].ToString();
             lbAngle.Text = snookerTable.balls[ballNum1].Center.AngleBetween(snookerTable.balls[ballNum2].Center).ToString("g3") + " degrees";
@@ -214,6 +239,7 @@ namespace Snooker_Game
       
         private void btnTakeShot_Click(object sender, EventArgs e)
         {
+            // when the take shot button is pressed
             int power;
 
             Int32.TryParse(txtPower.Text, out power);
@@ -223,15 +249,19 @@ namespace Snooker_Game
 
             int angle = -(int)numAngle.Value;
 
+            // creates a new point to similar to when using the mouse location 
             Vector shotPoint = new Vector();
             shotPoint.X = (power * 10) * Math.Cos(angle * (Math.PI / 180));
             shotPoint.Y = (power * 10) * Math.Sin(angle * (Math.PI / 180));
 
+
+            // sets the velocity of the ball
             snookerTable.balls[0].Velocity.X = ballCenterX - (ballCenterX - shotPoint.X);
             snookerTable.balls[0].Velocity.Y = ballCenterY - (ballCenterY - shotPoint.Y);
 
             float length = (float)snookerTable.balls[0].Velocity.Length();
 
+            // checks to stop the ball going to fast
             if (length > 40)
             {
                 length = 40;
@@ -254,6 +284,7 @@ namespace Snooker_Game
         bool showDirection = false;
         private void btnShowDirection_Click_1(object sender, EventArgs e)
         {
+            // makes the show direction button toggle between on and off
             if (showDirection == false)
             {
                 showDirection = true;
@@ -266,6 +297,8 @@ namespace Snooker_Game
 
         private void drawShot()
         {
+            // draws the shot direction
+
             Graphics graphics = this.CreateGraphics();
             int power;
 
@@ -298,6 +331,8 @@ namespace Snooker_Game
 
         private void pressSave(object sender, CancelEventArgs e)
         {
+            //loops through all balls and save their information to a file
+
             string name = saveFileDialog.FileName;
             for (int i = 0; i < snookerTable.balls.Length; i++)
             {
@@ -307,6 +342,8 @@ namespace Snooker_Game
 
         private void btnOpenGame_Click(object sender, EventArgs e)
         {
+            // the user chooses the file they want to open
+
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -317,6 +354,8 @@ namespace Snooker_Game
                     
                     for (int i = 0; i < snookerTable.balls.Length; i++)
                     {
+                        // gets infomation from string array by using commas to separate information
+
                         string[] ballData = gameData[i].Split(',');
 
                         snookerTable.balls[i].Center.X = double.Parse(ballData[0]);

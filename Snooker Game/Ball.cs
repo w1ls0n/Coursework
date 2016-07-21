@@ -108,6 +108,7 @@ namespace Snooker_Game
             }
         }
 
+        //creates a ball with no properties
         public Ball()
         {
             center = new Vector();
@@ -123,6 +124,7 @@ namespace Snooker_Game
             potted = false;
         }
         
+        //creates a ball using vectors
         public Ball(Vector center1, Vector velocity1, Color colour1, int diameter1, double speed1, bool moveBall1, bool potted1)
         {
             center = center1;
@@ -134,6 +136,7 @@ namespace Snooker_Game
             potted = potted1;
         }
 
+        // creates a ball using all individual values
         public Ball(int centerX, int centerY, int velocityX, int velocityY, Color colour1, int diameter1, double speed1, bool moveBall1, bool potted1)
         {
             center.X = centerX;
@@ -147,6 +150,7 @@ namespace Snooker_Game
             potted = potted1;
         }
 
+        // to string used to display ball information to the user
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -165,6 +169,7 @@ namespace Snooker_Game
             return sb.ToString();
         }
 
+        // used to add all of the location information to a string to be saved
         public string saveString()
         {
             StringBuilder sb = new StringBuilder();
