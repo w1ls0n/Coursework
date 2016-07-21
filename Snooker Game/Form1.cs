@@ -117,7 +117,7 @@ namespace Snooker_Game
                 }
             }
             
-            if (mouseLocation.Y <= 770)
+            if (mouseLocation.Y <= 770 && cbShowDirection.Checked == true)
             {
                 e.Graphics.DrawLine(blackPen, (float)snookerTable.balls[0].Center.X, (float)snookerTable.balls[0].Center.Y, (float)snookerTable.balls[0].Center.X + (float)(snookerTable.balls[0].Center.X - mouseLocation.X), (float)snookerTable.balls[0].Center.Y + (float)(snookerTable.balls[0].Center.Y - mouseLocation.Y));
             }

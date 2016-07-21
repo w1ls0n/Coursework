@@ -240,12 +240,9 @@ namespace Snooker_Game
                         if (detectElasticCollision(balls[i], balls[j]))
                         {
                             Vector tempVelocity = new Vector();
-                            //double tempSpeed = balls[i].Speed;
                             tempVelocity = ChangeVelocities(balls[i], balls[j]);
                             balls[j].Velocity = ChangeVelocities(balls[j], balls[i]);
                             balls[i].Velocity = tempVelocity;
-                            //balls[i].Speed = balls[j].Speed;
-                            //balls[j].Speed = tempSpeed;
                             balls[j].Speed = balls[i].Speed;
                         }
                     }
@@ -289,14 +286,5 @@ namespace Snooker_Game
 
             g.DrawLine(blackPen, ballCenter, prediction);
         }
-
-        //public override string ToString()
-        //{
-        //    //StringBuilder sb = new StringBuilder();
-        //    //sb.AppendLine("Ball center: " + center.ToString());
-        //    //sb.AppendLine("Ball X velocity: " + velocity.X.ToString("g4"));
-        //    //sb.AppendLine("Ball Y velocity: " + velocity.Y.ToString("g4"));
-        //    //return sb.ToString();
-        //}
     }
 }

@@ -37,6 +37,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.gbBallList = new System.Windows.Forms.GroupBox();
+            this.cbShowDirection = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.cbBallList2 = new System.Windows.Forms.ComboBox();
@@ -139,6 +140,7 @@
             // 
             // gbBallList
             // 
+            this.gbBallList.Controls.Add(this.cbShowDirection);
             this.gbBallList.Controls.Add(this.label6);
             this.gbBallList.Controls.Add(this.label5);
             this.gbBallList.Controls.Add(this.cbBallList2);
@@ -151,10 +153,20 @@
             this.gbBallList.TabStop = false;
             this.gbBallList.Text = "Display Options";
             // 
+            // cbShowDirection
+            // 
+            this.cbShowDirection.AutoSize = true;
+            this.cbShowDirection.Location = new System.Drawing.Point(9, 152);
+            this.cbShowDirection.Name = "cbShowDirection";
+            this.cbShowDirection.Size = new System.Drawing.Size(115, 17);
+            this.cbShowDirection.TabIndex = 5;
+            this.cbShowDirection.Text = "Show ball direction";
+            this.cbShowDirection.UseVisualStyleBackColor = true;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 114);
+            this.label6.Location = new System.Drawing.Point(6, 95);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 13);
             this.label6.TabIndex = 4;
@@ -163,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 57);
+            this.label5.Location = new System.Drawing.Point(6, 50);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(42, 13);
             this.label5.TabIndex = 3;
@@ -180,7 +192,7 @@
             "Blue",
             "Pink",
             "Black"});
-            this.cbBallList2.Location = new System.Drawing.Point(6, 130);
+            this.cbBallList2.Location = new System.Drawing.Point(6, 114);
             this.cbBallList2.Name = "cbBallList2";
             this.cbBallList2.Size = new System.Drawing.Size(121, 21);
             this.cbBallList2.TabIndex = 2;
@@ -196,7 +208,7 @@
             "Blue",
             "Pink",
             "Black"});
-            this.cbBallList1.Location = new System.Drawing.Point(6, 73);
+            this.cbBallList1.Location = new System.Drawing.Point(6, 66);
             this.cbBallList1.Name = "cbBallList1";
             this.cbBallList1.Size = new System.Drawing.Size(121, 21);
             this.cbBallList1.TabIndex = 1;
@@ -228,7 +240,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(129, 25);
+            this.label8.Location = new System.Drawing.Point(129, 16);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(90, 13);
             this.label8.TabIndex = 7;
@@ -237,7 +249,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 25);
+            this.label7.Location = new System.Drawing.Point(6, 16);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(87, 13);
             this.label7.TabIndex = 6;
@@ -246,7 +258,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(240, 25);
+            this.label4.Location = new System.Drawing.Point(240, 16);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(82, 13);
             this.label4.TabIndex = 5;
@@ -255,7 +267,7 @@
             // lbAngle
             // 
             this.lbAngle.AutoSize = true;
-            this.lbAngle.Location = new System.Drawing.Point(240, 44);
+            this.lbAngle.Location = new System.Drawing.Point(240, 32);
             this.lbAngle.Name = "lbAngle";
             this.lbAngle.Size = new System.Drawing.Size(35, 13);
             this.lbAngle.TabIndex = 4;
@@ -264,7 +276,7 @@
             // lbSecondBallInfo
             // 
             this.lbSecondBallInfo.AutoSize = true;
-            this.lbSecondBallInfo.Location = new System.Drawing.Point(129, 44);
+            this.lbSecondBallInfo.Location = new System.Drawing.Point(129, 32);
             this.lbSecondBallInfo.Name = "lbSecondBallInfo";
             this.lbSecondBallInfo.Size = new System.Drawing.Size(35, 13);
             this.lbSecondBallInfo.TabIndex = 1;
@@ -273,7 +285,7 @@
             // lbFirstBallInfo
             // 
             this.lbFirstBallInfo.AutoSize = true;
-            this.lbFirstBallInfo.Location = new System.Drawing.Point(6, 44);
+            this.lbFirstBallInfo.Location = new System.Drawing.Point(6, 32);
             this.lbFirstBallInfo.Name = "lbFirstBallInfo";
             this.lbFirstBallInfo.Size = new System.Drawing.Size(35, 13);
             this.lbFirstBallInfo.TabIndex = 0;
@@ -436,6 +448,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numAngle;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox cbShowDirection;
     }
 }
 
